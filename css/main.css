@@ -1,0 +1,15 @@
+.view{
+    margin: 10px auto;
+    border: 1px solid black;
+}
+.cell{
+    border: 1px solid #ddd;
+    width: 30px;
+    height: 30px;
+    margin: 0px;
+    padding: 3px;
+    text-align: center;
+    font-weight: bolder;
+    background-color: darkgrey;
+    cursor: pointer;
+}

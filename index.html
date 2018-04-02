@@ -1,15 +1,35 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>MinesSweeper Game</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="css/bootstrap-responsive.css" rel="stylesheet">
-    <link href="css/main.css" rel="stylesheet"/>
-</head>
-<body>
-    
+<!DOCTYPE html>
+<html lang="en" ng-app="gameApp">
 
-    <script src="js/common/jquery.min.js"></script>
+<head>
+    <title>Mines Sweeper Game</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/bootstrap-grid.min.css">
+
+</head>
+
+<body ng-cloak="true" ng-controller="gameController">
+    <div class="container">
+        <div class="row">
+            <div ng-repeat="col in range(columns)">
+                 <div ng-repeat="row in range(rows)">
+                    <div class="cell" name="{{row +'_' + col}}" ng-click="cellClicked({row: row,col: col})">
+                            {{row +'.' + col}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--scripts-->
+    <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/common/angular.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/MainApp/GameApp.js"></script>
+    <script src="js/MainApp/Controllers/GameController.js"></script>
+    <!--end of scripts-->
 </body>
+
 </html>
