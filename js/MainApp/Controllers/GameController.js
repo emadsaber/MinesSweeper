@@ -3,13 +3,14 @@ var gameController = gameApp.controller('gameController', function($scope){
     $scope.settings = {
         rows: 10,
         columns: 10,
-        difficulty: 3,
+        difficulty: 100,
     };
 
     $scope.rows = $scope.settings.rows;
     $scope.columns = $scope.settings.columns;
     $scope.mines = [];
     $scope.gameOverFlag = false;
+    $scope.discoveredCells = 0;
 
     pageLoad();
 
@@ -27,17 +28,26 @@ var gameController = gameApp.controller('gameController', function($scope){
         
         if(isMine(rowIndex, colIndex)){
             showAllMines();
-            showGameOver();
+            gameOver();
             return;
         }else{
             var minesCount = getSurroundingMinesCount(colIndex, rowIndex);
             if(minesCount != 0)
+            {
                 showNumber(rowIndex, colIndex, minesCount);
+            }
             else 
+            {
                 disableCellAndSurroundingCells(rowIndex, colIndex);
+            }
+            
+            if($scope.discoveredCells == ($scope.settings.row * $scope.settings.columns - $scope.mines.length)){
+                success();
+                $scope.gameOverFlag = true;
+            }
         }
-
     }
+
     $scope.newGame = function(){
         $scope.gameOverFlag = false;
         location.reload(true);
@@ -108,10 +118,15 @@ var gameController = gameApp.controller('gameController', function($scope){
     function showNumber(row, col, number){
         var cellName = row + "_" + col;
         $("[name='" + cellName + "']").val(number);
+        $scope.discoveredCells ++;        
     }
-    function showGameOver(){
+    function gameOver(){
         $scope.gameOverFlag = true;
         $(".gameOver").show(500);
+    }
+    function success(){
+        $scope.gameOverFlag = true;
+        $(".success").show(500);
     }
     function disableCellAndSurroundingCells(row, col){
         disableCell(row, col);
@@ -129,5 +144,6 @@ var gameController = gameApp.controller('gameController', function($scope){
     function disableCell(row, col){
         var cellName = row + "_" + col;
         $("[name='" + cellName + "']").addClass("disabled");
+        $scope.discoveredCells ++;
     }
 })
