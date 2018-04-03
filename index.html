@@ -11,8 +11,10 @@
 </head>
 
 <body ng-cloak="true" ng-controller="gameController">
+
     <div class="container">
-        <div class="row center">
+        <div class="h1">Mines Sweeper Game</div>
+        <div class="row game">
             <div ng-repeat="col in range(columns)">
                 <div ng-repeat="row in range(rows)">
                     <input type="button" class="btn cell" name="{{row +'_' + col}}" ng-click="cellClicked({row: row,col: col})">

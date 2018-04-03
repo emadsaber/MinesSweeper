@@ -2,8 +2,8 @@
 var gameController = gameApp.controller('gameController', function($scope){
     $scope.settings = {
         rows: 10,
-        columns: 12,
-        difficulty: 40,
+        columns: 10,
+        difficulty: 3,
     };
 
     $scope.rows = $scope.settings.rows;
