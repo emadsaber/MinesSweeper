@@ -12,18 +12,18 @@
 
 <body ng-cloak="true" ng-controller="gameController">
     <div class="container">
-        <div class="row">
+        <div class="row center">
             <div ng-repeat="col in range(columns)">
-                 <div ng-repeat="row in range(rows)">
+                <div ng-repeat="row in range(rows)">
                     <input type="button" class="btn cell" name="{{row +'_' + col}}" ng-click="cellClicked({row: row,col: col})">
-                            
+
                     </input>
                 </div>
             </div>
         </div>
         <div id="GameOver" class="gameOver">
             Game Over, You stepped over a mine!
-            <input type="button" class ="btn btn-sm btn-success" value = "New Game" name="newGame" ng-click="newGame()"/>
+            <input type="button" class="btn btn-sm btn-success" value="New Game" name="newGame" ng-click="newGame()" />
         </div>
     </div>
     <!--scripts-->

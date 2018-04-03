@@ -24,3 +24,6 @@
 .disabled{
     background-color: darkgray;
 }
+.center{
+    padding : 50px;
+}

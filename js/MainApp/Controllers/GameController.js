@@ -110,6 +110,7 @@ var gameController = gameApp.controller('gameController', function($scope){
         $("[name='" + cellName + "']").val(number);
     }
     function showGameOver(){
+        $scope.gameOverFlag = true;
         $(".gameOver").show(500);
     }
     function disableCellAndSurroundingCells(row, col){
