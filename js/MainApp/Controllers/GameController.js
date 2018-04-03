@@ -76,7 +76,7 @@ var gameController = gameApp.controller('gameController', function($scope){
     }
     function showMine(row, col){
         var cellName = row + "_" + col;
-        $("[name='" + cellName + "']").css("background-color", "black");
+        $("[name='" + cellName + "']").css("background", "#ef7389 url('img/bomb.png') no-repeat center center");
     }
     function getSurroundingMinesCount(x , y){
         var x_max = $scope.settings.rows - 1;
