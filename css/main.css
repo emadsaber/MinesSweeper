@@ -13,3 +13,14 @@
     background-color: darkgrey;
     cursor: pointer;
 }
+.gameOver{
+    display: none;
+    color: red;
+    /* text-align: center; */
+    font-weight: bold;
+    margin:10px;
+    padding:5px;
+}
+.disabled{
+    background-color: darkgray;
+}
