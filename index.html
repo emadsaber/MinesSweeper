@@ -17,7 +17,7 @@
         <div class="row game">
             <div ng-repeat="col in range(columns)">
                 <div ng-repeat="row in range(rows)">
-                    <input type="button" class="btn cell" name="{{row +'_' + col}}" ng-click="cellClicked({row: row,col: col})">
+                    <input type="button" class="btn cell" name="{{row +'_' + col}}" oncontextmenu="return false" ng-mousedown="cellClicked({row: row,col: col}, $event)">
 
                     </input>
                 </div>
