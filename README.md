@@ -10,4 +10,4 @@ The classic mines sweeper game in a new style.
 * Bootstrap 4 : for layout and grid
 
 ### See more
-[My Blog](http://www.emadsaber89.wordpress.com)
+[My Blog](http://emadsaber89.wordpress.com)
