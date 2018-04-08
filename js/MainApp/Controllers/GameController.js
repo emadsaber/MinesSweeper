@@ -3,7 +3,7 @@ var gameController = gameApp.controller('gameController', function($scope){
     $scope.settings = {
         rows: 10,
         columns: 10,
-        difficulty: 100,
+        difficulty: 2,
     };
 
     $scope.rows = $scope.settings.rows;
@@ -71,7 +71,12 @@ var gameController = gameApp.controller('gameController', function($scope){
         var minesCount = Math.floor($scope.settings.rows * $scope.settings.columns / $scope.settings.difficulty);
         var mines = [];
         for(var i = 0; i < minesCount; i++){
-            mines.push(getRandomMine());
+            var mine = getRandomMine();
+            if(isMine(mine.y, mine.x)) {
+                i--;
+                continue;
+            }
+            mines.push(mine);
         }
         return mines;
     }
