@@ -1,9 +1,10 @@
 'use strict';
 var gameController = gameApp.controller('gameController', function($scope){
+    //#region scope variables
     $scope.settings = {
-        rows: 10,
-        columns: 10,
-        difficulty: 2,
+        rows: 3,
+        columns: 3,
+        difficulty: 9,
     };
 
     $scope.rows = $scope.settings.rows;
@@ -13,10 +14,11 @@ var gameController = gameApp.controller('gameController', function($scope){
     $scope.flaggedCells = [];
     $scope.discoveredCells = [];
     $scope.disabledCells = [];
-
+    //#endregion
+    
     pageLoad();
 
-    //scope functions
+    //#region scope functions
     $scope.range = function(number){
         var arr = new Array(number);
         for(var i = 0; i < number; i++){ arr[i] = i; }
@@ -31,13 +33,15 @@ var gameController = gameApp.controller('gameController', function($scope){
             case 3: //right mouse button
             {
                 toggleFlaggedCell(cellName);
+                detectGameEnd();
                 return;
             }
             default:
                 break;
         }
         if($scope.gameOverFlag) return;
-        
+        if(isDisabled(cellName)) return;
+        if(isDiscovered(cellName)) return;
         if(isFlagged(cellName)) hideFlag(cellName.row, cellName.col);
 
         var rowIndex = cellName.row;
@@ -57,16 +61,25 @@ var gameController = gameApp.controller('gameController', function($scope){
             {
                 disableCellAndSurroundingCells(rowIndex, colIndex);
             }
-            
         }
+
+        //detect if game ended successfully
+        detectGameEnd();
     }
 
     $scope.newGame = function(){
         $scope.gameOverFlag = false;
         location.reload(true);
     }
-
-    //private functions
+    //#endregion
+    
+    //#region private functions
+    function detectGameEnd(){
+        if(isGameEnded()){
+            showAllMines();
+            success();
+        }
+    }
     function getMinesLocations(){
         var minesCount = Math.floor($scope.settings.rows * $scope.settings.columns / $scope.settings.difficulty);
         var mines = [];
@@ -128,18 +141,21 @@ var gameController = gameApp.controller('gameController', function($scope){
             if(val.row == cell.row && val.col == cell.col) return idx;
         });
         if(indexes != undefined && indexes.length != 0) return true;
+        return false;
     }
     function isDisabled(cell){
         var indexes = jQuery.map($scope.disabledCells, function(val, idx){
             if(val.row == cell.row && val.col == cell.col) return idx;
         });
         if(indexes != undefined && indexes.length != 0) return true;
+        return false;
     }
     function isDiscovered(cell){
         var indexes = jQuery.map($scope.discoveredCells, function(val, idx){
             if(val.row == cell.row && val.col == cell.col) return idx;
         });
         if(indexes != undefined && indexes.length != 0) return true;
+        return false;
     }
     function showFlag(row, col){
         var cellName = row + "_" + col;
@@ -167,19 +183,30 @@ var gameController = gameApp.controller('gameController', function($scope){
         return minesCount;
     }
     function getSurroundingCells(x, y){
-        return [{x: x - 1, y: y - 1},
-                {x: x    , y: y - 1},
-                {x: x + 1, y: y - 1},
-                {x: x + 1, y: y    },
-                {x: x + 1, y: y + 1},
-                {x: x    , y: y + 1},
-                {x: x - 1, y: y + 1},
-                {x: x - 1, y: y    }];
+        
+        var cells = [{x: x - 1, y: y - 1},
+                     {x: x    , y: y - 1},
+                     {x: x + 1, y: y - 1},
+                     {x: x + 1, y: y    },
+                     {x: x + 1, y: y + 1},
+                     {x: x    , y: y + 1},
+                     {x: x - 1, y: y + 1},
+                     {x: x - 1, y: y    }];
+        
+        var validCells = [];
+
+        var indices = jQuery.map(cells, function(val, index){
+            if(val.x == -1 || val.y == -1 || val.x >= $scope.settings.columns || val.y >= $scope.settings.rows) return index;
+            else { validCells.push(val); }
+        });
+        
+        return validCells;
     }
+    
     function showNumber(row, col, number){
         var cellName = row + "_" + col;
         $("[name='" + cellName + "']").val(number);
-        $scope.discoveredCells.push({row: row, col: col});
+        addDiscoveredCell({row: row, col: col});
     }
     function gameOver(){
         $scope.gameOverFlag = true;
@@ -205,6 +232,30 @@ var gameController = gameApp.controller('gameController', function($scope){
     function disableCell(row, col){
         var cellName = row + "_" + col;
         $("[name='" + cellName + "']").addClass("disabled");
-        $scope.disabledCells.push({row: row, col: col});
+        addDisabledCell({row: row, col: col});
     }
+    function addDisabledCell(cell){
+        if(!isDisabled(cell)) $scope.disabledCells.push(cell);
+    }
+    function addDiscoveredCell(cell){
+        if(!isDiscovered(cell)) $scope.discoveredCells.push(cell);        
+    }
+    function isGameEnded(){
+        var total = $scope.settings.columns * $scope.settings.rows;
+        var end1 = total == $scope.discoveredCells.length + $scope.disabledCells.length + $scope.flaggedCells.length;
+        var end2 = areEqual($scope.mines, $scope.flaggedCells);
+        return end1 || end2;
+    }
+    function areEqual(array1, array2){
+        if(array1.length != array2.length) return false;
+        array1.forEach(function(element){
+            var indexes = jQuery.map(array2, function(val, index){
+                if(val.row == element.row && val.col == element.col) return index;
+            });
+            if(indexes == undefined || indexes.length == 0) return false;
+        });
+
+        return true;
+    }
+    //#endregion
 })

@@ -39,7 +39,7 @@ span.toot{
     background-image: url('toot.png') no-repeat;
 }
 .disabled{
-    background-color: darkgray;
+    background-color: transparent;
 }
 .game{
     padding : 50px 200px 50px 200px;
