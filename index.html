@@ -27,12 +27,40 @@
             Game Over, You stepped over a mine!
         </div>
         <div id="Success" class="success">
-                <span class="toot"></span>
-                Congratulations, You won the game ;) 
-                <span class="toot"></span>
+            <span class="toot"></span>
+            Congratulations, You won the game ;)
+            <span class="toot"></span>
         </div>
         <input type="button" class="btn btn-sm btn-success" value="New Game" name="newGame" ng-click="newGame()" />
+        <p>
+            <h5 class="toggle">Settings</h5>
+            <div class="row">
+                <div class="col-md-3">
+                    <label># rows</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="number" name="rowsCount" class="form-control" ng-model="rows"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label># columns</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="number" name="colsCount" class="form-control" ng-model="columns" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label>Difficulty(Lower is harder): [{{difficulty}}]</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="range" name="difficulty" class="form-control" ng-model="difficulty" min="2" max="{{rows * columns}}"/>
+                </div>
+            </div>
+        </p>
     </div>
+
     <!--scripts-->
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>

@@ -2,13 +2,14 @@
 var gameController = gameApp.controller('gameController', function($scope){
     //#region scope variables
     $scope.settings = {
-        rows: 3,
-        columns: 3,
-        difficulty: 9,
+        rows: 6,
+        columns: 6,
+        difficulty: 4,
     };
 
     $scope.rows = $scope.settings.rows;
     $scope.columns = $scope.settings.columns;
+    $scope.difficulty = $scope.settings.difficulty;
     $scope.mines = [];
     $scope.gameOverFlag = false;
     $scope.flaggedCells = [];
@@ -69,8 +70,14 @@ var gameController = gameApp.controller('gameController', function($scope){
 
     $scope.newGame = function(){
         $scope.gameOverFlag = false;
-        location.reload(true);
+        $scope.mines = [];
+        
+        $scope.flaggedCells = [];
+        $scope.discoveredCells = [];
+        $scope.disabledCells = [];
+        pageLoad();
     }
+
     //#endregion
     
     //#region private functions
@@ -244,6 +251,7 @@ var gameController = gameApp.controller('gameController', function($scope){
         var total = $scope.settings.columns * $scope.settings.rows;
         var end1 = total == $scope.discoveredCells.length + $scope.disabledCells.length + $scope.flaggedCells.length;
         var end2 = areEqual($scope.mines, $scope.flaggedCells);
+        
         return end1 || end2;
     }
     function areEqual(array1, array2){
