@@ -248,13 +248,13 @@ var gameController = gameApp.controller('gameController', function($scope){
     }
     function areEqual(array1, array2){
         if(array1.length != array2.length) return false;
-        array1.forEach(function(element){
+        for(var i=0; i< array1.length; i++){
+            var element = array1[i];
             var indexes = jQuery.map(array2, function(val, index){
-                if(val.row == element.row && val.col == element.col) return index;
+                if(val.row == element.y && val.col == element.x) return index;
             });
             if(indexes == undefined || indexes.length == 0) return false;
-        });
-
+        }
         return true;
     }
     //#endregion
