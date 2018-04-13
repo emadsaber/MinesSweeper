@@ -23,13 +23,12 @@
                 </div>
             </div>
         </div>
-        <div id="GameOver" class="gameOver">
+        <div id="GameOver" class="gameOver" ng-show="gameOverFlag">
             Game Over, You stepped over a mine!
         </div>
-        <div id="Success" class="success">
-            <span class="toot"></span>
+        <div id="Success" class="success" ng-show="successFlag">
+            <p class="toot"></p>
             Congratulations, You won the game ;)
-            <span class="toot"></span>
         </div>
         <input type="button" class="btn btn-sm btn-success" value="New Game" name="newGame" ng-click="newGame()" />
         <p>

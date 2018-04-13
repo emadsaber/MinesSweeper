@@ -4,7 +4,7 @@ var gameController = gameApp.controller('gameController', function($scope){
     $scope.settings = {
         rows: 6,
         columns: 6,
-        difficulty: 4,
+        difficulty: 36,
     };
 
     $scope.rows = $scope.settings.rows;
@@ -12,6 +12,7 @@ var gameController = gameApp.controller('gameController', function($scope){
     $scope.difficulty = $scope.settings.difficulty;
     $scope.mines = [];
     $scope.gameOverFlag = false;
+    $scope.successFlag = false;
     $scope.flaggedCells = [];
     $scope.discoveredCells = [];
     $scope.disabledCells = [];
@@ -40,7 +41,7 @@ var gameController = gameApp.controller('gameController', function($scope){
             default:
                 break;
         }
-        if($scope.gameOverFlag) return;
+        if($scope.gameOverFlag || $scope.successFlag) return;
         if(isDisabled(cellName)) return;
         if(isDiscovered(cellName)) return;
         if(isFlagged(cellName)) hideFlag(cellName.row, cellName.col);
@@ -70,11 +71,13 @@ var gameController = gameApp.controller('gameController', function($scope){
 
     $scope.newGame = function(){
         $scope.gameOverFlag = false;
+        $scope.successFlag = false;
         $scope.mines = [];
         
         $scope.flaggedCells = [];
         $scope.discoveredCells = [];
         $scope.disabledCells = [];
+        resetAllCells();
         pageLoad();
     }
 
@@ -126,7 +129,7 @@ var gameController = gameApp.controller('gameController', function($scope){
     }
     function showMine(row, col){
         var cellName = row + "_" + col;
-        $("[name='" + cellName + "']").css("background", "#ef7389 url('img/bomb.png') no-repeat center center");
+        $("[name='" + cellName + "']").addClass("exploded");
     }
     function toggleFlaggedCell(cell){
         if(isDisabled(cell) || isDiscovered(cell)) return;
@@ -166,11 +169,12 @@ var gameController = gameApp.controller('gameController', function($scope){
     }
     function showFlag(row, col){
         var cellName = row + "_" + col;
-        $("[name='" + cellName + "']").css("background", "#e1ea83 url('img/flag.png') no-repeat center center");
+        $("[name='" + cellName + "']").addClass("flagged");
     }
     function hideFlag(row, col){
         var cellName = row + "_" + col;
-        $("[name='" + cellName + "']").css("background", "darkgrey none");
+        $("[name='" + cellName + "']").removeClass("flagged");
+        $("[name='" + cellName + "']").addClass("unFlagged");
     }
     function getSurroundingMinesCount(x , y){
         var x_max = $scope.settings.rows - 1;
@@ -217,11 +221,9 @@ var gameController = gameApp.controller('gameController', function($scope){
     }
     function gameOver(){
         $scope.gameOverFlag = true;
-        $(".gameOver").show(500);
     }
     function success(){
-        $scope.gameOverFlag = true;
-        $(".success").show(500);
+        $scope.successFlag = true;
     }
     function disableCellAndSurroundingCells(row, col){
         disableCell(row, col);
@@ -264,6 +266,19 @@ var gameController = gameApp.controller('gameController', function($scope){
             if(indexes == undefined || indexes.length == 0) return false;
         }
         return true;
+    }
+    function resetAllCells(){
+        for(var r = 0; r < $scope.rows; r++)
+        {
+            for(var c = 0; c < $scope.columns; c++)
+            {
+                var cellName = r + "_" + c;
+                
+                $("[name='" + cellName + "']").removeClass("disabled flagged unflagged exploded")
+                                              .addClass("cell")
+                                              .val('');
+            }
+        }
     }
     //#endregion
 })
