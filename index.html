@@ -38,7 +38,7 @@
                     <label># rows</label>
                 </div>
                 <div class="col-md-3">
-                    <input type="number" name="rowsCount" class="form-control" ng-model="rows"/>
+                    <input type="number" name="rowsCount" class="form-control" ng-model="newRows"/>
                 </div>
             </div>
             <div class="row">
@@ -46,15 +46,15 @@
                     <label># columns</label>
                 </div>
                 <div class="col-md-3">
-                    <input type="number" name="colsCount" class="form-control" ng-model="columns" />
+                    <input type="number" name="colsCount" class="form-control" ng-model="newColumns" />
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-3">
-                    <label>Difficulty(Lower is harder): [{{difficulty}}]</label>
+                    <label>Difficulty(Higher is harder): [{{newDifficulty}}]</label>
                 </div>
                 <div class="col-md-3">
-                    <input type="range" name="difficulty" class="form-control" ng-model="difficulty" min="2" max="{{rows * columns}}"/>
+                    <input type="range" name="difficulty" class="form-control" ng-model="newDifficulty" min="10" max="90" step="10"/>
                 </div>
             </div>
         </p>
