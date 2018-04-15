@@ -12,7 +12,7 @@ var gameController = gameApp.controller('gameController', function ($scope) {
         columns: 10,
         difficulty: 40,
     };
-
+    $scope.defaultClasses = "btn cell ";
     $scope.rows = $scope.settings.rows;
     $scope.columns = $scope.settings.columns;
     $scope.difficulty = $scope.settings.difficulty;
@@ -139,7 +139,7 @@ var gameController = gameApp.controller('gameController', function ($scope) {
     }
     function showMine(row, col) {
         var cellName = row + "_" + col;
-        $("[name='" + cellName + "']").addClass("exploded");
+        $("[name='" + cellName + "']").removeClass().addClass($scope.defaultClasses + "exploded");
     }
     function toggleFlaggedCell(cell) {
         if (isDisabled(cell) || isDiscovered(cell)) return;
@@ -179,12 +179,13 @@ var gameController = gameApp.controller('gameController', function ($scope) {
     }
     function showFlag(row, col) {
         var cellName = row + "_" + col;
-        $("[name='" + cellName + "']").addClass("flagged");
+        $("[name='" + cellName + "']").removeClass()
+                                      .addClass($scope.defaultClasses + "flagged");
     }
     function hideFlag(row, col) {
         var cellName = row + "_" + col;
-        $("[name='" + cellName + "']").removeClass("flagged");
-        $("[name='" + cellName + "']").addClass("unFlagged");
+        $("[name='" + cellName + "']").removeClass()
+                                      .addClass($scope.defaultClasses + "unFlagged");
     }
     function getSurroundingMinesCount(x, y) {
         var x_max = $scope.settings.rows - 1;
@@ -250,7 +251,7 @@ var gameController = gameApp.controller('gameController', function ($scope) {
     }
     function disableCell(row, col) {
         var cellName = row + "_" + col;
-        $("[name='" + cellName + "']").addClass("disabled");
+        $("[name='" + cellName + "']").removeClass().addClass($scope.defaultClasses + "disabled");
         addDisabledCell({ row: row, col: col });
     }
     function addDisabledCell(cell) {
@@ -288,8 +289,9 @@ var gameController = gameApp.controller('gameController', function ($scope) {
             for (var c = 0; c < $scope.columns; c++) {
                 var cellName = r + "_" + c;
 
-                $("[name='" + cellName + "']").removeClass("disabled flagged unflagged exploded")
-                    .addClass("cell")
+                $("[name='" + cellName + "']")
+                    .removeClass()
+                    .addClass($scope.defaultClasses)
                     .val('');
             }
         }
